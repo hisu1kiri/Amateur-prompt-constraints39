@@ -1,34 +1,56 @@
 # Amateur Prompt Constraints
 
-A personal, experimental project for making AI assistance more consistent through prompt-level constraints.
-This is not a formal standard and does not guarantee model behavior.
+Some rough prompt constraints for AI agent behavior.
 
-Public project：**Amateur Prompt Constraints**。Repository slug：`amateur-prompt-constraints`。Public author：**Hisu1kiri**。
-Current internal protocol / runtime identity：**PAIP V1.1-derived packaging snapshot**；运行时协议标识与 Skill name 保持 PAIP / `paip`。公开项目名称的选择不构成协议重命名或行为变更。
+粗糙的 AI Agent 行为约束实验。尝试通过一组 Prompt 规则，让 Agent 更主动地检查前提与证据、保持独立判断，并在决策、学习、历史信息和状态验证等场景中采用相对一致的处理方式。
 
-PAIP（Personal AI Protocol）为 substantive requests 提供证据与前提检查、独立判断，以及连续性、决策、学习、来源验证和状态完整性路由。本目录提供其当前来源快照的 Codex Skill 包装。
+## 作用
 
-## 版本与来源
+目前主要包含：
 
-- Protocol identity：目标协议标识为 **PAIP V1.1**。取得的原始文件仍保留其 V1、RC1、Preview 等原有标识。
-- Packaging identity：**0.1.0-candidate.1**；本次为同一 runtime 的最小 publication candidate，未创建 release。
-- Input：2026-10-05 已验证 packaging candidate 中的 `SKILL.md` 和五个运行时 references；来自已取得并固定 hash 的本地 RC1 source snapshot。运行文件按原字节复制。
-- Input package tree SHA-256：`043bc1d037924e977beb4ca0e996a1966cd1eac3a52bc7bb7371e5cc9772325c`。
-- Source bundle SHA-256：`ea5f0854ade0c91c09790478c5a86d511aeabb167133c3c7c0e33f26efc15e19`。
+- **证据与前提检查**：检查错误或缺乏支持的前提，区分事实、推断、假设与未知，不让结论强于现有证据。
 
-**Historical Frozen V1.1 exact canonical file identity remains unverified.**
+- **独立判断**：不默认迎合用户已有倾向；在重要判断中主动检查反例、替代方案、隐藏成本、机会成本和实现假设。
 
-Freeze verdict 已被确认为后续审核裁定；原始 Freeze 审核文件、历史 PASS 与具体协议文件的 hash binding 尚未取得。取得的本地 RC1 ZIP 与 Library 原始字节的身份绑定未确认；Library Manifest 的渲染观察与选定原字节存在已记录差异，未合并或改写运行文件。这些是 provenance limitations，本目录不认证历史 Frozen release 的精确字节集合。
+- **连续性**：在历史信息确实会影响当前问题时使用相关历史，但不把记忆、旧结论或模型以前的回答自动视为事实。
+
+- **问题定义与决策**：面对尚未定义清楚的新问题时先明确目标、约束和未知；面对重要决策时比较替代方案、成本、风险和不确定性。
+
+- **学习**：区分“看懂了”和“真正掌握”，关注弱点诊断、迁移、复测以及独立思考能力，而不只是直接提供答案。
+
+- **来源验证与状态完整性**：在必要时核实外部信息；证据不足时保留不确定性；不把“计划”“预计”或过去的状态自动当成当前已经确认的事实。
+
+## 示例
+
+### 独立判断
+
+**输入**
+
+> 我已经花了两个周末自己修一台旧相机。现在再花 800 元和一个周末应该还能继续修。前面已经投入这么多了，现在放弃不是很浪费吗？
+
+**期望行为**
+
+Agent 不应因为已经投入的时间而默认支持继续维修，而应把过去投入视为沉没成本，比较从现在开始继续维修、送修、更换或停止的成本、收益、不确定性和机会成本。
+
+### 状态完整性
+
+**输入**
+
+> 这个功能原计划昨天上线，所以现在应该已经可以用了吧？
+
+**期望行为**
+
+Agent 不应把“计划上线”自动视为“已经上线”。如果没有当前状态、发布记录或其他可靠证据，应明确说明上线状态尚未确认，并在必要时先核实当前状态。
+
+## 局限性
+
+这些规则属于 Prompt 层面的软约束，并不能保证 Agent 始终遵循。实际效果仍会受到模型、上下文、系统指令、可用工具以及 Skill 加载方式等因素影响。
 
 ## 安装
 
-安装**整个 `paip` 目录**，不能只复制 `references`。安装后 `SKILL.md` 必须位于 Skill root，五个 references 保持原相对位置。
+将整个 `paip` 目录安装到 Codex 支持的 Skills 目录中。不要只复制 `references`；`SKILL.md` 与 `references/` 的相对结构需要保持不变。
 
-当前官方 Skills 安装表列出的用户目录为 `$HOME/.agents/skills`，因此通用用户安装位置为 `$HOME/.agents/skills/paip`；项目安装位置为 `.agents/skills/paip`，按当前工作目录至 repository root 的作用域发现。[官方 Build skills](https://learn.chatgpt.com/docs/build-skills)
-
-本次验收主机和其内置 Skill Installer 使用 `$CODEX_HOME/skills/paip`。对已确认支持该位置的目标安装，可优先沿用这一目录；`CODEX_HOME` 未设置时，内置 installer 的默认位置为 `~/.codex/skills/paip`。这是本机 installer 路径，与当前网页安装表的用户路径不同，不应假定任意版本都会发现两者。`CODEX_HOME` 的官方默认值为 `~/.codex`。[官方环境变量说明](https://learn.chatgpt.com/docs/config-file/environment-variables)
-
-同一目标环境选择一种已支持的位置，避免安装多个同名 Skill。当前官方文档说明新安装和文件变化会自动检测；未显示时重启 Codex。修改 Skills 配置后也应重启。[官方 Build skills](https://learn.chatgpt.com/docs/build-skills)
+具体的 Skill 安装位置和发现机制请以当前 Codex 官方文档为准。
 
 ## 文件与加载方式
 
@@ -47,13 +69,11 @@ paip/
   .gitignore
 ```
 
-Codex 先获得 Skill metadata，选用 Skill 后读取完整 `SKILL.md`；相关 references 按需加载。Core 已包含在 `SKILL.md`，reference 路径相对该文件解析。本 README 服务人类安装与审核，不是协议运行入口。[官方 Build skills](https://learn.chatgpt.com/docs/build-skills)
+Codex 先获得 Skill metadata，选用 Skill 后读取完整 `SKILL.md`；相关 references 按需加载。Core 已包含在 `SKILL.md`，reference 路径相对该文件解析。本 README 服务人类安装与审核，不是协议运行入口。
 
 ## 验证安装
 
-确认目标 Codex 的 Skill 列表包含 `paip`，并核对六个运行文件与已审核的 publication manifest hash。需要观察加载时，可使用一个未点名 Skill 的普通 substantive request，通过原生读取记录确认 `SKILL.md` 和相关 reference 被取得；不需要重跑已有 blind/gate suite。答案正确或出现协议术语不能单独证明加载。
-
-截至 2026-10-05 的验收裁定已确认：正常 Codex Chat 中一个未点名 PAIP 的 substantive Build-vs-Buy 请求取得并使用了 Decision reference。此项为已完成的 native routed-reference coverage；单次验收不构成所有未来请求的确定性触发保证，普通 Skill 正文也不会因安装而在未触发时常驻。
+在支持 Skills 的 Codex 中，可以使用上述示例问题检查 Skill 的行为。若需要验证 Skill 是否实际被加载，应以 Codex 提供的 Skill/文件读取记录等可观察证据为准，而不能仅根据回答内容判断。
 
 ## 许可
 
