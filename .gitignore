@@ -1,0 +1,55 @@
+# Review archives and local evidence
+*.zip
+*.log
+logs/
+reports/
+local-reports/
+audit/
+outputs/
+work/
+source-bundle/
+packaging-audit/
+PUBLICATION_MANIFEST.md
+PUBLICATION_PREP_REPORT*.md
+PUBLICATION_CHECKS.json
+
+# Authentication, secrets, state and sessions
+.env
+.env.*
+auth.json
+auth.*.json
+credentials*
+cookies*
+*.pem
+*.key
+*.p12
+*.pfx
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+.codex/
+sessions/
+state/
+
+# Local tests and generated artifacts
+tests/
+evaluator/
+blind-scoring/
+runs/
+.pytest_cache/
+.coverage
+__pycache__/
+*.py[cod]
+
+# Editor and OS metadata
+.vscode/
+.idea/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
